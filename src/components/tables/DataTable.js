@@ -1,5 +1,6 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { Link } from "react-router-dom";
 
 const fakeData = [
   {
@@ -25,24 +26,77 @@ const fakeData = [
   }
 ];
 
+const LinkCreator = cell => <Link to="/edit">{cell}</Link>;
+
+const ButtonCreator = () => (
+  <Link to="/edit">
+    <button type="button" className="btn btn-primary btn-block">
+      Edit
+    </button>
+  </Link>
+);
+
+const ReceiversCreator = cell => (
+  <table
+    className="align-middle text-center"
+    style={{
+      textAlign: "center",
+      marginLeft: "auto",
+      marginRight: "auto"
+    }}
+  >
+    {cell.map(item => <tr>{item}</tr>)}
+  </table>
+);
+
 const DataTable = () => (
-  <BootstrapTable data={fakeData} striped hover condensed>
-    <TableHeaderColumn dataField="id" width="50" isKey dataAlign="center">
+  <BootstrapTable data={fakeData} striped hover version="4">
+    <TableHeaderColumn
+      isKey
+      dataField="id"
+      dataAlign="center"
+      tdStyle={{ verticalAlign: "middle" }}
+      width="50"
+    >
       ID
     </TableHeaderColumn>
-    <TableHeaderColumn dataField="name" dataAlign="center">
+    <TableHeaderColumn
+      dataField="name"
+      dataFormat={LinkCreator}
+      dataAlign="center"
+      tdStyle={{ verticalAlign: "middle" }}
+    >
       Name
     </TableHeaderColumn>
-    <TableHeaderColumn dataField="condition" dataAlign="center">
+    <TableHeaderColumn
+      dataField="condition"
+      dataAlign="center"
+      tdStyle={{ verticalAlign: "middle" }}
+    >
       Condition
     </TableHeaderColumn>
-    <TableHeaderColumn dataField="email" dataAlign="center">
+    <TableHeaderColumn
+      dataField="email"
+      dataAlign="center"
+      tdStyle={{ verticalAlign: "middle" }}
+    >
       Email
     </TableHeaderColumn>
-    <TableHeaderColumn dataField="receivers" dataAlign="center">
+    <TableHeaderColumn
+      dataField="receivers"
+      dataFormat={ReceiversCreator}
+      dataAlign="center"
+      tdStyle={{ verticalAlign: "middle" }}
+    >
       Receivers
     </TableHeaderColumn>
-    <TableHeaderColumn dataAlign="center">Action</TableHeaderColumn>
+    <TableHeaderColumn
+      dataFormat={ButtonCreator}
+      dataAlign="center"
+      tdStyle={{ verticalAlign: "middle" }}
+    >
+      Action
+    </TableHeaderColumn>
   </BootstrapTable>
 );
 
