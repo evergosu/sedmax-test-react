@@ -5,7 +5,7 @@ import DataPage from "./components/pages/DataPage";
 import EditPage from "./components/pages/EditPage";
 
 const App = () => (
-  <div>
+  <div className="container">
     <Route path="/" exact component={HomePage} />
     <Route path="/data" exact component={DataPage} />
     <Route path="/edit" exact component={EditPage} />
