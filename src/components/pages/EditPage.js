@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import EditTable from "../../components/tables/EditTable";
 
 const HomePage = () => (
   <div>
     <h1>Edit Page</h1>
-    <Link to="/">Go back to home page</Link>
+    <EditTable />
   </div>
 );
 
