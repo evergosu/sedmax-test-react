@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import DataTable from "../../components/tables/DataTable";
 
-const HomePage = () => (
+const DataPage = () => (
   <div>
     <h1>Data Page</h1>
     <DataTable />
@@ -10,4 +10,4 @@ const HomePage = () => (
   </div>
 );
 
-export default HomePage;
+export default DataPage;

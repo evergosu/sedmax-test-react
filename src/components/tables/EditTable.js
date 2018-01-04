@@ -1,7 +1,7 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Link } from "react-router-dom";
 import Validator from "validator";
+import PropTypes from "prop-types";
 
 const fakeData = [
   {
@@ -49,6 +49,13 @@ class EditTable extends React.Component {
       stateCopy.data[row.id - 1].condition = false;
       this.setState(stateCopy);
     }
+  };
+
+  onSubmit = () => {
+    this.props.submit(this.state.data);
+  };
+  onReject = () => {
+    this.props.reject(this.state.data);
   };
 
   nameValidator = value => {
@@ -168,27 +175,30 @@ class EditTable extends React.Component {
             Receivers
           </TableHeaderColumn>
         </BootstrapTable>
-        <Link to="/data">
-          <button
-            style={{ margin: "15px 15px 15px 0px", width: "100px" }}
-            type="submit"
-            className="btn btn-primary"
-          >
-            Submit
-          </button>
-        </Link>
-        <Link to="/data">
-          <button
-            style={{ width: "100px" }}
-            type="button"
-            className="btn btn-primary"
-          >
-            Reset
-          </button>
-        </Link>
+        <button
+          onClick={this.onSubmit}
+          style={{ margin: "15px 15px 15px 0px", width: "100px" }}
+          type="submit"
+          className="btn btn-primary"
+        >
+          Submit
+        </button>
+        <button
+          onClick={this.onReject}
+          style={{ width: "100px" }}
+          type="button"
+          className="btn btn-primary"
+        >
+          Reset
+        </button>
       </div>
     );
   }
 }
+
+EditTable.propTypes = {
+  submit: PropTypes.func.isRequired,
+  reject: PropTypes.func.isRequired
+};
 
 export default EditTable;

@@ -1,11 +1,22 @@
 import React from "react";
 import EditTable from "../../components/tables/EditTable";
 
-const HomePage = () => (
-  <div>
-    <h1>Edit Page</h1>
-    <EditTable />
-  </div>
-);
+class EditPage extends React.Component {
+  submit = data => {
+    console.log(data);
+  };
+  reject = () => {
+    console.log("Rejected");
+  };
 
-export default HomePage;
+  render() {
+    return (
+      <div>
+        <h1>Edit Page</h1>
+        <EditTable submit={this.submit} reject={this.reject} />
+      </div>
+    );
+  }
+}
+
+export default EditPage;
