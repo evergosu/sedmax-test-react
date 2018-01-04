@@ -54,6 +54,7 @@ class EditTable extends React.Component {
   onSubmit = () => {
     this.props.submit(this.state.data);
   };
+
   onReject = () => {
     this.props.reject(this.state.data);
   };

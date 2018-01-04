@@ -1,5 +1,6 @@
 import React from "react";
-import EditTable from "../../components/tables/EditTable";
+import EditTable from "../tables/EditTable";
+import Tree from "../Tree";
 
 class EditPage extends React.Component {
   submit = data => {
@@ -13,6 +14,7 @@ class EditPage extends React.Component {
     return (
       <div>
         <h1>Edit Page</h1>
+        <Tree />
         <EditTable submit={this.submit} reject={this.reject} />
       </div>
     );
