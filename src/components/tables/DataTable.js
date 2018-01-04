@@ -1,6 +1,10 @@
 import React from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Link } from "react-router-dom";
+import {
+  LinkCreator,
+  ButtonCreator,
+  ReceiversCreator
+} from "./CellStuffCreators";
 
 const fakeData = [
   {
@@ -25,29 +29,6 @@ const fakeData = [
     receivers: ["goodguy@email.com", "coolguy@email.com"]
   }
 ];
-
-const LinkCreator = cell => <Link to="/edit">{cell}</Link>;
-
-const ButtonCreator = () => (
-  <Link to="/edit">
-    <button type="button" className="btn btn-primary btn-block">
-      Edit
-    </button>
-  </Link>
-);
-
-const ReceiversCreator = cell => (
-  <table
-    className="align-middle text-center"
-    style={{
-      textAlign: "center",
-      marginLeft: "auto",
-      marginRight: "auto"
-    }}
-  >
-    {cell.map(item => <tr>{item}</tr>)}
-  </table>
-);
 
 const DataTable = () => (
   <BootstrapTable data={fakeData} striped hover version="4">

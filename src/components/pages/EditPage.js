@@ -3,8 +3,19 @@ import EditTable from "../tables/EditTable";
 import Tree from "../Tree";
 
 class EditPage extends React.Component {
-  submit = data => {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  provide = data => {
+    this.setState({ data });
     console.log(data);
+    console.log(this.state.data);
+  };
+  submit = data => {
+    this.setState({ data });
+    console.log(data);
+    console.log(this.state.data);
   };
   reject = () => {
     console.log("Rejected");
@@ -15,7 +26,11 @@ class EditPage extends React.Component {
       <div>
         <h1>Edit Page</h1>
         <Tree />
-        <EditTable submit={this.submit} reject={this.reject} />
+        <EditTable
+          provide={this.provide}
+          submit={this.submit}
+          reject={this.reject}
+        />
       </div>
     );
   }
