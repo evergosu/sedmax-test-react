@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import Validator from "validator";
-import { ReceiversCreator } from "./CellStuffCreators";
 
 class InnerEditTable extends React.Component {
   nameValidator = value => {
@@ -56,6 +55,21 @@ class InnerEditTable extends React.Component {
     });
     return response;
   };
+
+  ReceiversCreator = cell => (
+    <table
+      className="align-middle text-center"
+      style={{
+        textAlign: "center",
+        marginLeft: "auto",
+        marginRight: "auto"
+      }}
+    >
+      {cell instanceof Array
+        ? cell.map(item => <tr>{item}</tr>)
+        : cell.split(",").map(item => <tr>{item}</tr>)}
+    </table>
+  );
 
   render() {
     const cellEditProp = {
@@ -115,7 +129,7 @@ class InnerEditTable extends React.Component {
             type: "input",
             validator: this.receiversEmailValidator
           }}
-          dataFormat={ReceiversCreator}
+          dataFormat={this.ReceiversCreator}
           dataAlign="center"
           tdStyle={{ verticalAlign: "middle" }}
         >

@@ -1,0 +1,2 @@
+export const UPDATE_DATA = "UPDATE_DATA";
+export const UPDATE_CHECKED_ITEMS = "UPDATE_CHECKED_ITEMS";
