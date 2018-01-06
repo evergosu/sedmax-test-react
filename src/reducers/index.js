@@ -1,8 +1,13 @@
-import { UPDATE_DATA, UPDATE_CHECKED_ITEMS } from "../constants/ActionTypes";
+import {
+  UPDATE_DATA,
+  UPDATE_CHECKED_ITEMS,
+  UPDATE_EXPANDED_FOLDERS
+} from "../constants/ActionTypes";
 
 const initialState = {
   data: [],
-  checkedItems: []
+  checkedItems: [],
+  expandedFolders: ["/people", "/people/guys"]
 };
 
 const users = (state = initialState, action) => {
@@ -20,6 +25,11 @@ const users = (state = initialState, action) => {
       return {
         ...state,
         checkedItems: action.indexes
+      };
+    case UPDATE_EXPANDED_FOLDERS:
+      return {
+        ...state,
+        expandedFolders: action.indexes
       };
     default:
       return state;

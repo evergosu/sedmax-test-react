@@ -1,64 +1,62 @@
 import React from "react";
+import PropTypes from "prop-types";
 import CheckboxTree from "react-checkbox-tree";
 
-const nodes = [
-  {
-    value: "/people",
-    label: "people",
-    children: [
+const Tree = ({ data, checked, expanded, onCheckItem, onExpandFolder }) => {
+  const getTree = () => {
+    const [{ ...firstUser }, { ...secondUser }, { ...thirdUser }] = data;
+    return [
       {
-        value: "/people/guys",
-        label: "guys",
+        value: "/people",
+        label: "people",
         children: [
           {
-            value: "/people/guys/Good Guy",
-            label: "Good Guy"
-          },
-          {
-            value: "/people/guys/Cool Guy",
-            label: "Cool Guy"
-          },
-          {
-            value: "/people/guys/Bad Guy",
-            label: "Bad Guy"
+            value: "/people/guys",
+            label: "guys",
+            children: [
+              {
+                value: "1",
+                label: firstUser.name
+              },
+              {
+                value: "2",
+                label: secondUser.name
+              },
+              {
+                value: "3",
+                label: thirdUser.name
+              }
+            ]
           }
         ]
       }
-    ]
-  }
-];
-
-class Tree extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      checked: [],
-      expanded: ["/people", "/people/guys"]
-    };
-  }
-
-  onCheck = checked => {
-    this.setState({ checked });
+    ];
   };
 
-  onExpand = expanded => {
-    this.setState({ expanded });
-  };
+  return (
+    <CheckboxTree
+      checked={checked}
+      expanded={expanded}
+      nodes={getTree()}
+      onCheck={onCheckItem}
+      onExpand={onExpandFolder}
+    />
+  );
+};
 
-  render() {
-    const { checked, expanded } = this.state;
-
-    return (
-      <CheckboxTree
-        checked={checked}
-        expanded={expanded}
-        nodes={nodes}
-        onCheck={this.onCheck}
-        onExpand={this.onExpand}
-      />
-    );
-  }
-}
+Tree.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      receivers: PropTypes.arrayOf(PropTypes.string)
+    })
+  ).isRequired,
+  checked: PropTypes.arrayOf(PropTypes.number).isRequired,
+  expanded: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onCheckItem: PropTypes.func.isRequired,
+  onExpandFolder: PropTypes.func.isRequired
+};
 
 export default Tree;

@@ -7,7 +7,7 @@ const DataTable = ({ data, onLinkClicked }) => {
   const LinkCreator = (cell, row) => (
     <Link
       to="/edit"
-      onClick={() => onLinkClicked(row.id)}
+      onClick={() => onLinkClicked([row.id.toString()])}
       style={{ textDecoration: "none" }}
     >
       {cell}
@@ -18,7 +18,7 @@ const DataTable = ({ data, onLinkClicked }) => {
     <Link
       to="/edit"
       className="btn btn-primary btn-block"
-      onClick={() => onLinkClicked(row.id)}
+      onClick={() => onLinkClicked([row.id.toString()])}
       style={{ textDecoration: "none", color: "#f8f9fa" }}
     >
       Edit

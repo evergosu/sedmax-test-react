@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import DataTable from "../tables/DataTable";
 import { updateCheckedItems } from "../../actions";
+import DataTable from "../tables/DataTable";
 
 const DataPage = ({ data, changeIndex }) => (
   <div>
@@ -24,8 +24,7 @@ DataPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  data: state.data,
-  checked: state.checkedItems
+  data: state.data
 });
 
 const mapDispatchToProps = dispatch => ({

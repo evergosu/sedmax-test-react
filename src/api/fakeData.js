@@ -22,7 +22,8 @@ const fakeData = {
       receivers: ["goodguy@email.com", "coolguy@email.com"]
     }
   ],
-  checkedItems: []
+  checkedItems: [],
+  expandedFolders: ["/people", "/people/guys"]
 };
 
 export default fakeData;
