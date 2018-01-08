@@ -1,22 +1,36 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import InnerEditTable from "./InnerEditTable";
 
 class EditTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cache: [],
+      changed: []
+    };
+  }
+
+  componentWillMount = () => {
+    const cacheFromStore = this.props.data.map(value => ({ ...value }));
+    this.setState({ cache: cacheFromStore });
+  };
+
   getDataToShow = () => {
-    const { data, checked } = this.props;
+    const { checked } = this.props;
+    const { cache } = this.state;
     const dataToShow = [];
-    data.forEach(
-      item =>
-        checked.includes(item.id.toString()) ? dataToShow.push(item) : null
+    cache.forEach(
+      item => checked.includes(item.id.toString()) && dataToShow.push(item)
     );
     return dataToShow;
   };
 
   handleCellEdit = (row, fieldName, value) => {
-    const data = this.getDataToShow();
+    const { cache } = this.state;
     let rowIdx;
-    const targetRow = data.find((item, i) => {
+    const targetRow = cache.find((item, i) => {
       if (item.id === row.id) {
         rowIdx = i;
         return true;
@@ -24,41 +38,62 @@ class EditTable extends React.Component {
       return false;
     });
     if (targetRow) {
-      targetRow[fieldName] = value;
-      data[rowIdx] = targetRow;
-      this.setState({ data });
+      // This two checks below and transformations are needed
+      // because of table component API supports only strings
+      if (value === "true") {
+        targetRow[fieldName] = true;
+      } else if (value === "false") {
+        targetRow[fieldName] = false;
+      } else if (value.indexOf(",") === -1) {
+        targetRow[fieldName] = value;
+      } else {
+        targetRow[fieldName] = value.split(",");
+      }
+      cache[rowIdx] = targetRow;
+      const changed = new Set(this.state.changed);
+      changed.add(targetRow);
+      this.setState({
+        cache: [...cache],
+        changed: [...changed]
+      });
     }
-    // TODO: bicycle need to be fixed
-    // const stateCopy = { ...this.state };
-    // stateCopy.data = stateCopy.data.slice();
-    // stateCopy.data[row.id - 1] = {
-    //   ...stateCopy.data[row.id - 1]
-    // };
-    // if (value === "true") {
-    //   stateCopy.data[row.id - 1].condition = true;
-    //   this.setState(stateCopy);
-    // } else if (value === "false") {
-    //   stateCopy.data[row.id - 1].condition = false;
-    //   this.setState(stateCopy);
-    // }
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { changed } = this.state;
+    this.props.onSubmit(changed);
+    this.props.history.push("/");
+  };
+
+  handleReject = e => {
+    e.preventDefault();
+    this.props.history.push("/");
   };
 
   render() {
-    const DataToShow = this.getDataToShow();
-    const { onSubmit, onReject } = this.props;
+    const { changed } = this.state;
     return (
       <div>
-        <InnerEditTable onCellEdit={this.handleCellEdit} data={DataToShow} />
+        <InnerEditTable
+          onCellEdit={this.handleCellEdit}
+          data={this.getDataToShow()}
+        />
         <button
-          onClick={() => onSubmit()}
-          style={{ margin: "15px 15px 15px 0px", width: "100px" }}
+          onClick={this.handleSubmit}
+          style={{
+            margin: "15px 15px 15px 0px",
+            width: "100px",
+            "a:focus": "outline: 0; text-decoration: none"
+          }}
           type="submit"
+          disabled={changed.length === 0}
           className="btn btn-primary"
         >
           Submit
         </button>
         <button
-          onClick={() => onReject()}
+          onClick={this.handleReject}
           style={{ width: "100px" }}
           type="button"
           className="btn btn-primary"
@@ -75,13 +110,14 @@ EditTable.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
+      condition: PropTypes.bool.isRequired,
       email: PropTypes.string.isRequired,
       receivers: PropTypes.arrayOf(PropTypes.string)
     })
   ).isRequired,
-  checked: PropTypes.arrayOf(PropTypes.number).isRequired,
+  checked: PropTypes.arrayOf(PropTypes.string).isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onReject: PropTypes.func.isRequired
+  history: PropTypes.func.isRequired
 };
 
-export default EditTable;
+export default withRouter(EditTable);

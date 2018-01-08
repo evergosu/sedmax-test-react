@@ -1,12 +1,11 @@
 import {
-  UPDATE_DATA,
+  UPDATE_CHANGED_ITEMS,
   UPDATE_CHECKED_ITEMS,
   UPDATE_EXPANDED_FOLDERS
 } from "../constants/ActionTypes";
 
-export const updateData = (index, data) => ({
-  type: UPDATE_DATA,
-  index,
+export const updateChangedItems = data => ({
+  type: UPDATE_CHANGED_ITEMS,
   data
 });
 

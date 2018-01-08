@@ -10,11 +10,8 @@ import "../node_modules/react-checkbox-tree/lib/react-checkbox-tree.css";
 import registerServiceWorker from "./registerServiceWorker";
 import App from "./App";
 import reducer from "./reducers";
-import fakeData from "../src/api/fakeData";
 
-const initialState = fakeData;
-
-const store = createStore(reducer, initialState, devToolsEnhancer());
+const store = createStore(reducer, devToolsEnhancer());
 
 ReactDOM.render(
   <BrowserRouter>

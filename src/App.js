@@ -4,7 +4,7 @@ import DataPage from "./components/pages/DataPage";
 import EditPage from "./components/pages/EditPage";
 
 const App = () => (
-  <div className="container">
+  <div className="container" style={{ minWidth: "900px" }}>
     <Route path="/" exact component={DataPage} />
     <Route path="/edit" exact component={EditPage} />
   </div>

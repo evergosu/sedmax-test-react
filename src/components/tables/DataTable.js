@@ -8,7 +8,7 @@ const DataTable = ({ data, onLinkClicked }) => {
     <Link
       to="/edit"
       onClick={() => onLinkClicked([row.id.toString()])}
-      style={{ textDecoration: "none" }}
+      style={{ textDecoration: "none", color: "#000" }}
     >
       {cell}
     </Link>
@@ -34,7 +34,9 @@ const DataTable = ({ data, onLinkClicked }) => {
         marginRight: "auto"
       }}
     >
-      {cell.map(item => <tr>{item}</tr>)}
+      {cell instanceof Array
+        ? cell.map(item => <tr>{item}</tr>)
+        : cell.split(",").map(item => <tr>{item}</tr>)}
     </table>
   );
 
@@ -95,6 +97,7 @@ DataTable.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
+      condition: PropTypes.bool.isRequired,
       email: PropTypes.string.isRequired,
       receivers: PropTypes.arrayOf(PropTypes.string)
     })

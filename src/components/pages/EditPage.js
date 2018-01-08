@@ -3,14 +3,19 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import EditTable from "../tables/EditTable";
 import Tree from "../Tree";
-import { updateCheckedItems, updateExpandedFolders } from "../../actions";
+import {
+  updateCheckedItems,
+  updateExpandedFolders,
+  updateChangedItems
+} from "../../actions";
 
 const EditPage = ({
   data,
   checked,
   expanded,
-  changeCheckedItems,
-  changeExpandedFolders
+  handleCheckedItems,
+  handleExpandedFolders,
+  handleChangedItems
 }) => (
   <div>
     <h1>Edit Page</h1>
@@ -18,14 +23,13 @@ const EditPage = ({
       data={data}
       checked={checked}
       expanded={expanded}
-      onCheckItem={checkedItems => changeCheckedItems(checkedItems)}
-      onExpandFolder={expandedFolders => changeExpandedFolders(expandedFolders)}
+      onCheckItem={checkedItems => handleCheckedItems(checkedItems)}
+      onExpandFolder={expandedFolders => handleExpandedFolders(expandedFolders)}
     />
     <EditTable
       data={data}
       checked={checked}
-      onSubmit={() => console.log("Submitted")}
-      onReject={() => console.log("Rejected")}
+      onSubmit={changedItems => handleChangedItems(changedItems)}
     />
   </div>
 );
@@ -35,14 +39,16 @@ EditPage.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
+      condition: PropTypes.bool.isRequired,
       email: PropTypes.string.isRequired,
       receivers: PropTypes.arrayOf(PropTypes.string)
     })
   ).isRequired,
-  checked: PropTypes.arrayOf(PropTypes.number).isRequired,
+  checked: PropTypes.arrayOf(PropTypes.string).isRequired,
   expanded: PropTypes.arrayOf(PropTypes.string).isRequired,
-  changeCheckedItems: PropTypes.func.isRequired,
-  changeExpandedFolders: PropTypes.func.isRequired
+  handleCheckedItems: PropTypes.func.isRequired,
+  handleExpandedFolders: PropTypes.func.isRequired,
+  handleChangedItems: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -52,10 +58,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  changeCheckedItems: checkedItems =>
+  handleCheckedItems: checkedItems =>
     dispatch(updateCheckedItems(checkedItems)),
-  changeExpandedFolders: expandedFolders =>
-    dispatch(updateExpandedFolders(expandedFolders))
+  handleExpandedFolders: expandedFolders =>
+    dispatch(updateExpandedFolders(expandedFolders)),
+  handleChangedItems: changedItems => dispatch(updateChangedItems(changedItems))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPage);

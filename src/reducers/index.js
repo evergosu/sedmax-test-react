@@ -1,26 +1,41 @@
 import {
-  UPDATE_DATA,
+  UPDATE_CHANGED_ITEMS,
   UPDATE_CHECKED_ITEMS,
   UPDATE_EXPANDED_FOLDERS
 } from "../constants/ActionTypes";
+import fakeData from "../api";
 
 const initialState = {
-  data: [],
+  data: fakeData,
   checkedItems: [],
   expandedFolders: ["/people", "/people/guys"]
 };
 
-const users = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_DATA:
+    case UPDATE_CHANGED_ITEMS: {
+      const combinedArrays = [...state.data, ...action.data].sort(
+        (a, b) => a.id > b.id
+      );
+      const finalArray = combinedArrays.reduce(
+        (prev, cur) => {
+          let toReturn;
+          const lastObj = prev[prev.length - 1];
+          if (lastObj.id !== cur.id) {
+            toReturn = prev.concat(cur);
+          } else {
+            prev.splice(prev.length - 1, 1, cur);
+            toReturn = prev;
+          }
+          return toReturn;
+        },
+        [combinedArrays[0]]
+      );
       return {
         ...state,
-        data: [
-          ...state.data.slice(0, action.index),
-          action.data,
-          ...state.data.slice(action.index + 1)
-        ]
+        data: finalArray
       };
+    }
     case UPDATE_CHECKED_ITEMS:
       return {
         ...state,
@@ -36,4 +51,4 @@ const users = (state = initialState, action) => {
   }
 };
 
-export default users;
+export default reducer;

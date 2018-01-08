@@ -49,11 +49,12 @@ Tree.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
+      condition: PropTypes.bool.isRequired,
       email: PropTypes.string.isRequired,
       receivers: PropTypes.arrayOf(PropTypes.string)
     })
   ).isRequired,
-  checked: PropTypes.arrayOf(PropTypes.number).isRequired,
+  checked: PropTypes.arrayOf(PropTypes.string).isRequired,
   expanded: PropTypes.arrayOf(PropTypes.string).isRequired,
   onCheckItem: PropTypes.func.isRequired,
   onExpandFolder: PropTypes.func.isRequired
